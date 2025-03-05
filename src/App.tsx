@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { WeatherCard } from './components/WeatherCard';
-import { ParkCarousel } from './components/ParkCarousel';
-import { LocationInput } from './components/LocationInput';
-import { Umbrella } from 'lucide-react';
-import type { WeatherData, Park, Location } from './types';
-import { getForecast } from './services/weather';
-import { getNearbyParks } from './services/parks';
+import React, { useState, useEffect } from "react";
+import { WeatherCard } from "./components/WeatherCard";
+import { ParkCarousel } from "./components/ParkCarousel";
+import { LocationInput } from "./components/LocationInput";
+import { Umbrella } from "lucide-react";
+import type { WeatherData, Park, Location } from "./types";
+import { getForecast } from "./services/weather";
+import { getNearbyParks } from "./services/parks";
 
 function App() {
   const [location, setLocation] = useState<Location | null>(null);
@@ -17,21 +17,21 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       if (!location) return;
-      
+
       setLoading(true);
       setError(null);
-      
+
       try {
         const [weatherData, parksData] = await Promise.all([
           getForecast(location.latitude, location.longitude),
-          getNearbyParks(location.latitude, location.longitude)
+          getNearbyParks(location.latitude, location.longitude),
         ]);
-        
+
         setWeather(weatherData);
         setParks(parksData);
       } catch (err) {
-        setError('Failed to fetch data. Please try again.');
-        console.error('Error fetching data:', err);
+        setError("Failed to fetch data. Please try again.");
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
@@ -47,7 +47,7 @@ function App() {
   const handleParkNavigation = (park: Park) => {
     window.open(
       `https://www.google.com/maps/dir/?api=1&destination=${park.latitude},${park.longitude}`,
-      '_blank'
+      "_blank"
     );
   };
 
@@ -60,7 +60,9 @@ function App() {
               <Umbrella className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold text-primary">Sofa to Strider</h1>
-            <p className="text-gray-600 mt-2">Find the perfect time for your walk</p>
+            <p className="text-gray-600 mt-2">
+              Find the perfect time for your walk
+            </p>
           </div>
           <LocationInput onLocationSubmit={handleLocationSubmit} />
         </div>
@@ -71,7 +73,9 @@ function App() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-primary text-xl">Loading your outdoor information...</div>
+        <div className="text-primary text-xl">
+          Loading your outdoor information...
+        </div>
       </div>
     );
   }
@@ -90,7 +94,12 @@ function App() {
         <header className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-primary">Sofa to Strider</h1>
-            <p className="text-gray-600">Perfect timing for your outdoor activities</p>
+            <p className="text-gray-600">
+              Perfect timing for your outdoor activities
+            </p>
+            <p className="text-gray-600 mt-2">
+              Location: {location.city}
+            </p>
           </div>
           <button
             onClick={() => setLocation(null)}
